@@ -35,6 +35,32 @@ def test_invalidOperator2():
     with pytest.raises(SyntaxError):
         a= LogicalExpression(exp)
 
+def test_invalidExpression1():
+    exp={"operation":"OR",
+        "left":{"operation":">",
+            "left":{"column":"age"},
+            "rigth":{"constant":18}
+        },
+        "right":{"operation":"==",
+            "left":{"column":"name"},
+            "right":{"constant":"ime"}
+        }}
+    with pytest.raises(SyntaxError):
+        a= LogicalExpression(exp)
+
+def test_invalidExpression2():
+    exp={"operration":"OR",
+        "left":{"operation":">",
+            "left":{"column":"age"},
+            "rigth":{"constant":18}
+        },
+        "right":{"operation":"==",
+            "left":{"column":"name"},
+            "rigth":{"constant":"ime"}
+        }}
+    with pytest.raises(SyntaxError):
+        a= LogicalExpression(exp)
+
 def test_singleExpression1():
     exp={"operation":"==",
             "left":{"column":"name"},
@@ -159,6 +185,8 @@ def test_multiExpressionOr2():
 
 test_invalidOperator1()
 test_invalidOperator2()
+test_invalidExpression1()
+test_invalidExpression2()
 test_singleExpression1()
 test_singleExpression2()
 test_multiExpressionAnd1()
