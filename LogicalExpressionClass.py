@@ -51,6 +51,15 @@ class LogicalExpression:
         if value == None:
             return False
 
+        if not "operation" in value:
+            return False
+        
+        if not "right" in value:
+            return False
+        
+        if not "left" in value:
+            return False
+
         operation = value["operation"]
 
         if operation == None:
