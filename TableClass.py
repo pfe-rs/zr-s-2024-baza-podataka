@@ -75,7 +75,7 @@ class Table:
 
         return resultTable
     
-    def Rows(self, logicalExpression, newRow):
+    def updateRows(self, logicalExpression, newRow):
         toUpdate = self.selectRows(logicalExpression)
 
         for row in toUpdate:
