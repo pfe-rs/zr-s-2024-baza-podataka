@@ -5,18 +5,18 @@ class Row:
         self._dictionary = {}
     
     @staticmethod
-    def _checkAttribute(x):
+    def checkAttribute(x):
         if type(x) != str:
             raise TypeError("Atribute name needs to be a string")
     
     @staticmethod
-    def _checkValue(x):
+    def checkValue(x):
         if type(x) != str and type(x) != int:
             raise TypeError("Value needs to be a string or an integer")
     
     def addAttribute(self, key, val):
-        self._checkAttribute(key)
-        self._checkValue(val)
+        self.checkAttribute(key)
+        self.checkValue(val)
 
         if key in self._dictionary:
             raise IndexError("The atribute '" + key + "' already exists")
@@ -26,7 +26,7 @@ class Row:
         return True
 
     def deleteAttribute(self, key):
-        self._checkAttribute(key)
+        self.checkAttribute(key)
 
         if not (key in self._dictionary):
             raise IndexError("The atribute '" + key + "' dost not exist")
@@ -36,8 +36,8 @@ class Row:
         
     def changeAttribute(self, key, value):
         
-        self._checkAttribute(key)
-        self._checkValue(value)
+        self.checkAttribute(key)
+        self.checkValue(value)
         
         if not (key in self._dictionary):
             self.addAttribute(key, value)
@@ -45,7 +45,7 @@ class Row:
             self._dictionary[key] = value
     
     def getAttribute(self, key):
-        self._checkAttribute(key)
+        self.checkAttribute(key)
         
         if not (key in self._dictionary):
             return None
