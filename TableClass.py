@@ -71,20 +71,20 @@ class Table:
         resultTable = Table("ResultTable")
         for key, value in self.mapRows.items():
             if logicalExpression.evaluate(value):
-                resultTable[key] = value
+                resultTable.insertRow(value)
 
         return resultTable
     
     def updateRows(self, logicalExpression, newRow):
         toUpdate = self.selectRows(logicalExpression)
-
-        for row in toUpdate:
+        row=Row()
+        for row in toUpdate.mapRows.values():
             self.changeRow(row.getAttribute("id"), newRow)
 
     def deleteRows(self, logicalExpression):
         toDelete = self.selectRows(logicalExpression)
 
-        for row in toDelete:
+        for row in toDelete.mapRows.values():
             self.deleteRow(row.getAttribute("id"))
 
     def getAsDictionary(self):
