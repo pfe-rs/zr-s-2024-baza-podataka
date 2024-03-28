@@ -20,18 +20,18 @@ class Table:
         if type(row) != Row:
             raise TypeError("Row value needs to be a row")
 
-        if "id" in row:
-            if type(row["id"]) != int:
+        if row.getAttribute("id") != None:
+            if type(row.getAttribute("id")) != int:
                 raise ValueError("Id needs to be an integer")
 
-            id = row["id"]
+            id = row.getAttribute("id")
         else:
             id = self.maxId+1
         
         if id in self.mapRows:
             raise ValueError("The row with that id already exists")
 
-        row["id"]=id
+        row.changeAttribute("id",id)
 
         self.maxId = math.max(self.maxId, id)
         self.mapRows[id]=row
@@ -50,7 +50,7 @@ class Table:
         if type(newRow) != Row:
             raise TypeError("Row value needs to be a row")
         
-        if "id" in newRow:
+        if newRow.getAttribute("id") != None:
             raise ValueError("You cannot change id of a row")
         
         oldRow = self.getRow(rowId)
