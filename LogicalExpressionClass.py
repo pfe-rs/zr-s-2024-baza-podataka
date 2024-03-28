@@ -41,7 +41,7 @@ class LogicalExpression:
 
         raise Exception("The logical expression was evaluated as correct by check function, but evaluation function is unable to compute it correctly")
 
-    def evalute(self, row):
+    def evaluate(self, row):
         if type(row) != row:
             raise TypeError("Logical expressions need to be evaluated on rows")
         return LogicalExpression._evalRecursion(self.expression, row)
