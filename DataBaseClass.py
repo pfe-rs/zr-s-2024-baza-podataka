@@ -48,6 +48,6 @@ class DataBase:
         
     def getTable(self, tableName):
         self._checkName(tableName)
-        return self._mapTables[tableName]:
+        return self._mapTables[tableName]
         
     
