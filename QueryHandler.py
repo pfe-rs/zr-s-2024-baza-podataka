@@ -5,6 +5,7 @@ class QueryHandler:
         self.db = DataBase()
 
     def parseInput(self, path:str):
+        returnval = ""
         with open(path) as f:
             input = json.load(f)
             print(f"{path} loaded successfully")
@@ -24,19 +25,19 @@ class QueryHandler:
 
             # bez switch-a zbog verzije pythona
             if funkcija == "create":
-                self.__create__(tabela)
+                returnval = self.__create__(tabela)
             if funkcija == "drop":
-                self.__drop__(tabela)
+                returnval = self.__drop__(tabela)
             if funkcija == "insert":
                 tempRow = Row()
                 cols = input["row"]
                 for key in cols:
                     tempRow.addAttribute(key,cols[key])
-                self.__insert__(tempRow, tabela)
+                returnval = self.__insert__(tempRow, tabela)
             
             if funkcija == "delete":
                 tempExpression = LogicalExpression(where)
-                self.__delete__( tabela, tempExpression)
+                returnval = self.__delete__( tabela, tempExpression)
 
             if funkcija == "update":
                 tempRow = Row()
@@ -44,44 +45,50 @@ class QueryHandler:
                 for key in cols:
                     tempRow.addAttribute(key,cols[key])
                 tempExpression = LogicalExpression(where)
-                self.__update__(tempRow, tabela, tempExpression)
+                returnval = self.__update__(tempRow, tabela, tempExpression)
 
             if funkcija == "select":
                 tempExpression = LogicalExpression(where)
-                self.__select__(tabela, tempExpression)
+                returnval = self.__select__(tabela, tempExpression)
             
+            return returnval
             
     
     def __create__(self, tableName : str):
-        self.db.createTable(tableName)
+        status = self.db.createTable(tableName)
+        return f"addition {status}"
 
 
     
     def __drop__(self, tableName):
-        self.db.dropTable(tableName)
+        status = self.db.dropTable(tableName)
+        return f"drop {status}"
 
     
     def __insert__(self, row : Row, tableName : str):
         table = self.db.getTable(tableName)
-        table.insertRow(row)
+        status = table.insertRow(row)
+        return f"insert {status}"
+
 
     
     def __select__(self, tableName : str, logicalExpression : LogicalExpression):
         table = self.db.getTable(tableName)
         result = table.selectRows(logicalExpression)
-        print(result.toJSON())
+        # print(result.toJSON())
+        return result.toJSON()
 
     
     
     def __delete__(self, tableName:str, logicalExpression):
         table = self.db.getTable(tableName)
-        table.deleteRows(logicalExpression)
+        status = table.deleteRows(logicalExpression)
+        return f"delete {status}"
 
-
-    
     def __update__(self, newRow, tableName: str, logicalExpression):
         table = self.db.getTable(tableName)
-        table.updateRows(logicalExpression,newRow)
+        status = table.updateRows(logicalExpression,newRow)
+        return f"update {status}"
 
 
 '''

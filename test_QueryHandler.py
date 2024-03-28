@@ -7,10 +7,9 @@ from QueryHandler import *
 
 # expected_output = {}
 qh = QueryHandler()
-qh.parseInput("query-samples/create.json")
-qh.parseInput("query-samples/insert.json")
-qh.parseInput("query-samples/select.json")
+print(qh.parseInput("query-samples/create.json"))
+print(qh.parseInput("query-samples/insert.json"))
+print(qh.parseInput("query-samples/select.json"))
 
-qh.parseInput("query-samples/drop.json")
-
+print(qh.parseInput("query-samples/drop.json"))
 
