@@ -7,7 +7,7 @@ class DataBase:
     @staticmethod
     def _check(x):
         if type(x) != Table:
-            raise ValueError("Atribute name needs to be table - map of dictionarys")
+            raise ValueError("Attribute name needs to be table")
     
     @staticmethod
     def _checkName(x):
@@ -52,6 +52,8 @@ class DataBase:
         
     def getTable(self, tableName):
         self._checkName(tableName)
+        if not (tableName in self._mapTables):
+            raise IndexError("There is no table named" + tableName)
         return self._mapTables[tableName]
         
     
