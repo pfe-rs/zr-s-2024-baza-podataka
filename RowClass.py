@@ -1,4 +1,6 @@
-class row:
+import math
+
+class Row:
     def __init__(self):
         self._dictionary = {}
     
@@ -12,33 +14,40 @@ class row:
         if type(x) != str and type(x) != int:
             raise TypeError("Value needs to be a string or an integer")
     
-    def addAttribute(self,name,val):
-        self._checkAttribute(name)
+    def addAttribute(self, key, val):
+        self._checkAttribute(key)
         self._checkValue(val)
 
-        if name in self._dictionary:
-            raise IndexError("The atribute '" + name + "' already exists")
+        if key in self._dictionary:
+            raise IndexError("The atribute '" + key + "' already exists")
         
-        self._dictionary[name] = val
-    
-    def deleteAttribute(self, name):
-        self._checkAttribute(name)
+        self._dictionary[key] = val
 
-        if name in self._dictionary:
-            del self._dictionary[name]
+        return True
+
+    def deleteAttribute(self, key):
+        self._checkAttribute(key)
+
+        if not (key in self._dictionary):
+            raise IndexError("The atribute '" + key + "' dost not exist")
         
-    def changeAttribute(self, name, value):
-        self._checkAttribute(name)
+        del self._dictionary[key]
+        return True
+        
+    def changeAttribute(self, key, value):
+        
+        self._checkAttribute(key)
         self._checkValue(value)
         
-        if not (name in self._dictionary):
-            raise IndexError("The atribute '" + name + "' does not exist")
-        self._dictionary[name] = value
+        if not (key in self._dictionary):
+            self.addAttribute(key, value)
+        else:
+            self._dictionary[key] = value
     
-    def getAttribute(self, name):
-        self._checkAttribute(name)
+    def getAttribute(self, key):
+        self._checkAttribute(key)
         
-        if not (name in self._dictionary):
+        if not (key in self._dictionary):
             return None
         
-        return self._dictionary[name]
+        return self._dictionary[key]
