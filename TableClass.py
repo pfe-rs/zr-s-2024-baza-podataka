@@ -1,5 +1,4 @@
 from RowClass import *
-import numpy
 from LogicalExpressionClass import *
 
 class Table:
@@ -34,7 +33,8 @@ class Table:
 
         row.changeAttribute("id",id)
 
-        self.maxId = numpy.max(self.maxId, id)
+        if id > self.maxId:
+            self.maxId = id 
         self.mapRows[id]=row
         return True
 
