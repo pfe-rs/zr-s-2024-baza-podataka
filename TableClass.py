@@ -1,11 +1,6 @@
 from RowClass import *
 from LogicalExpressionClass import *
 
-def Evaluate(log, row): # Example evaluation function for testing purposes
-    if row["id"] % 2 == 0:
-        return False
-    return True
-
 class Table:
     def __init__(self, name):
         self.mapRows = {}
