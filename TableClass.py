@@ -86,3 +86,15 @@ class Table:
 
         for row in toDelete:
             self.deleteRow(row.getAttribute("id"))
+
+    def getAsDictionary(self):
+        rowDict={}
+        for key, value in self.mapRows.items():
+            rowDict[key]=value.getDicitonary()
+        finalDict={}
+        finalDict["name"]=rowDict
+        return finalDict
+    
+    def toJSON(self):
+        dict = self.getAsDictionary()
+        return json.dumps(dict)
