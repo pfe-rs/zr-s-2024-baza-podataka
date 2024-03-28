@@ -182,6 +182,10 @@ def test_multiExpressionOr2():
     }
     a=LogicalExpression(exp)
     assert(a.evaluate(row)==True)
+def test_trueExpression():
+    exp="True"
+    a=LogicalExpression(exp)
+    assert(a.evaluate(row)==True)
 
 test_invalidOperator1()
 test_invalidOperator2()
@@ -193,3 +197,4 @@ test_multiExpressionAnd1()
 test_multiExpressionAnd2()
 test_multiExpressionOr1()
 test_multiExpressionOr2()
+test_trueExpression()
