@@ -24,7 +24,7 @@ class LogicalExpression:
         
         if operation in LogicalExpression.validComparators:
             leftValue = row.getAttribute(exp["left"]["column"])
-            rightValue = exp["rigth"]["constant"] 
+            rightValue = exp["right"]["constant"] 
 
             if operation == "==":
                 return leftValue == rightValue
@@ -42,7 +42,7 @@ class LogicalExpression:
         raise Exception("The logical expression was evaluated as correct by check function, but evaluation function is unable to compute it correctly")
 
     def evaluate(self, row):
-        if type(row) != row:
+        if type(row) != Row:
             raise TypeError("Logical expressions need to be evaluated on rows")
         return LogicalExpression._evalRecursion(self.expression, row)
 
@@ -58,7 +58,7 @@ class LogicalExpression:
         
         if operation in LogicalExpression.validOperators:
             left = LogicalExpression._checkValidity(value["left"])
-            right = LogicalExpression._checkValidity(value["left"])
+            right = LogicalExpression._checkValidity(value["right"])
             return left and right
         
         if operation in LogicalExpression.validComparators:
