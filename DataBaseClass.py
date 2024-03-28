@@ -32,7 +32,6 @@ class DataBase:
         self._checkName(tableName)
         if tableName in self._mapTables:
             raise IndexError("There is already table named " + tableName)
-            return False
         
         self._mapTables[tableName] = Table(tableName)
         return True
@@ -41,7 +40,6 @@ class DataBase:
         self._checkName(tableName)
         if not (tableName in self._mapTables):
             raise IndexError("There is no table named" + tableName)
-            return False
         
         del self._mapTables[tableName]
         return True
