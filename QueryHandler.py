@@ -1,58 +1,79 @@
 from DataBaseClass import *
 
 class QueryHandler:
-    @staticmethod
-    def parseInput(path:str):
+    def __init__(self):
+        self.db = DataBase()
+
+    def parseInput(self, path:str):
         with open(path) as f:
             input = json.load(f)
-            # print(input)
-            # print(type(input))
             print(f"{path} loaded successfully")
+            print(input) ## da vidimo da je sve okej i sta je query, samo test print za sad
+            # eval( "__" + input["type"] + "__" ) ### evo eval da bane ima sta da hakuje
+            ## salim se bane nista od toga
 
-    @staticmethod
-    def __create__(tableName: str):
-        DataBase.createTable(tableName)
+            # funkcija = locals()["__" + input["type"] + "__"] ## dobro msm mozes i ovako
+            # funkcija() ### nahhhh ovo ce biti prekomplikovano ovako
+
+            funkcija = input["type"]
+            tabela = input["table"]
+
+            # bez switch-a zbog verzije pythona
+            if funkcija == "create":
+                self.__create__(tabela)
+            if funkcija == "drop":
+                self.__drop__(tabela)
+            if funkcija == "insert":
+                tempRow = Row()
+                cols = input["row"]
+                for key in cols:
+                    tempRow.addAttribute(key,cols[key])
+                self.__insert__(tempRow,tabela)
+
+    
+    def __create__(self, tableName: str):
+        self.db.createTable(tableName)
 
 
-    @staticmethod
-    def __drop__(tableName):
-        DataBase.dropTable(tableName)
+    
+    def __drop__(self, tableName):
+        self.db.dropTable(tableName)
 
-    @staticmethod
-    def __insert__(row:Row, tableName:str):
-        table = DataBase.getTable(tableName)
+    
+    def __insert__(self, row:Row, tableName:str):
+        table = self.db.getTable(tableName)
         table.insertRow(row)
 
-    @staticmethod
-    def __select__(DataListOfKeys, tableName:str, logicalExpression):
-        table = DataBase.getTable(tableName)
+    
+    def __select__(self, DataListOfKeys, tableName:str, logicalExpression):
+        table = self.db.getTable(tableName)
         table.selectRows(logicalExpression)
 
     
-    @staticmethod
-    def __delete__(tableName:str, logicalExpression):
-        table = DataBase.getTable(tableName)
+    
+    def __delete__(self, tableName:str, logicalExpression):
+        table = self.db.getTable(tableName)
         table.deleteRows(logicalExpression)
 
 
-    @staticmethod
-    def __update__(row, tableName: str, logicalExpression):
-        table = DataBase.getTable(tableName)
+    
+    def __update__(self, row, tableName: str, logicalExpression):
+        table = self.db.getTable(tableName)
         table.updateRows(logicalExpression)
 
 
 '''
 
-    @staticmethod
+    
     def parseOutput():
     
 
 
     
 
-    @staticmethod
+    
     def __checkExpression__():
 
-    @staticmethod
+    
     def validateExpression():
 '''

@@ -14,19 +14,25 @@ class DataBase:
         if type(x) != str:
             raise ValueError("Name of the table need to be a string")
 
-    '''
-    DodatiNakonKonstrukcijeParseInputa()
 
-    def loadDataBase(self):
-        temp = input("Please enter your information!!   ") 
-        try: 
-            with open('ispis.txt', 'w') as ispit: 
-            ispis.write(temp) 
-        except Exception as e: 
-            print("There is a Problem", str(e)) 
+    ### ostavljeno za kasnije kad se bude radila serijalizacija table i row objekta
+    # def saveDataBase(self, path):
+    #     try:
+    #         with open(path, "w") as izlaz:
+    #             mp = json.dumps(self._mapTables)
+    #             mapa_tabela = json.dump(mp,izlaz)
+    #     except:
+    #         print("error in saving db")
 
-    def saveDataBase(self):
-    '''
+    # def loadDataBase(self, path):
+    #     temp = input("Please enter your information!!   ") 
+    #     try: 
+    #         with open('ispis.txt', 'w') as ispit: 
+    #         ispis.write(temp) 
+    #     except Exception as e: 
+    #         print("There is a Problem", str(e)) 
+
+
     
     def createTable(self,tableName):
         self._checkName(tableName)

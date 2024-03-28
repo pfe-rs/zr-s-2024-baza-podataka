@@ -1,0 +1,15 @@
+{"type":"select",
+"columns":["name"],
+"table":"students",
+"where":{
+    "operation":"OR",
+        "left":{"operation":">",
+            "left":{"column":"age"},
+            "rigth":{"constant":18}
+        },
+        "right":{"operation":"==",
+            "left":{"column":"name"},
+            "rigth":{"constant":"ime"}
+        }
+}
+}
