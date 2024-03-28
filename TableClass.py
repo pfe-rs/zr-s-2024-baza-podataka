@@ -1,4 +1,5 @@
 from RowClass import *
+from LogicalExpressionClass import *
 
 def Evaluate(log, row): # Example evaluation function for testing purposes
     if row["id"] % 2 == 0:
@@ -66,9 +67,25 @@ class Table:
         return self.tableName
     
     def selectRows(self, logicalExpression):
+        if type(logicalExpression) != LogicalExpression:
+            raise TypeError("Logical expression needs to be of class logical expression")
+
+
         resultTable = Table("ResultTable")
         for key, value in self.mapRows:
-            if Evaluate(logicalExpression, value):
+            if logicalExpression.evaluate(value):
                 resultTable[key] = value
 
         return resultTable
+    
+    def updateRows(self, logicalExpression, newRow):
+        toUpdate = self.selectRows(logicalExpression)
+
+        for key, _ in toUpdate:
+            self.changeRow(key, newRow)
+
+    def deleteRows(self, logicalExpression):
+        toDelete = self.selectRows(logicalExpression)
+
+        for key, _ in toDelete:
+            self.deleteRow(key)        
