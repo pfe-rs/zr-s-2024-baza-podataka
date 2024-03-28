@@ -1,0 +1,25 @@
+27.3.2024.
+***Dizajn softvera***
+1. Dizajnirane klase:  (DizajnSoftvera.png)
+- Row
+sa metodama     addAtribute(),
+		deleteAtribute(), 
+		changeAtrbute(),
+		getAribute(),
+		setAtribute()  
+- Table 
+sa metodama     getRow(),
+		insertROw(),
+		deleteRow(),
+		changeRow(),
+		selectRow()
+- Data Base 
+sa metodama	saveDB(),
+		loadDB(),
+		createTable(),
+		dropTable(),
+		getTable()
+- staticka klasa QueryHandler
+sa metodama     parseInput(),
+		parseOutput()
+2. Dizajniran plan akcija  (DijagramAkcija.png)
