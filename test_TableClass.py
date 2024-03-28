@@ -64,7 +64,6 @@ def test_selectRows():
     expression={"operation":">",
             "left":{"column":"godine"},
             "right":{"constant":25}
-            "right":{"constant":25}
         }
 
     uslov = LogicalExpression(expression)
