@@ -55,7 +55,7 @@ class LogicalExpression:
         if value=="True":
             return True
         if value=="False":
-            return False
+            return True
         if value == None:
             return False
 
