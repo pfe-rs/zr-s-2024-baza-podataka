@@ -16,13 +16,13 @@ class DataBase:
 
 
     ### ostavljeno za kasnije kad se bude radila serijalizacija table i row objekta
-    # def saveDataBase(self, path):
-    #     try:
-    #         with open(path, "w") as izlaz:
-    #             mp = json.dumps(self._mapTables)
-    #             mapa_tabela = json.dump(mp,izlaz)
-    #     except:
-    #         print("error in saving db")
+    def saveDataBase(self, path):
+        try:
+            with open(path, "w") as izlaz:
+                mp = self.toJSON()
+                mapa_tabela = json.dump(mp,izlaz)
+        except:
+            print("error in saving db")
 
     # def loadDataBase(self, path):
     #     temp = input("Please enter your information!!   ") 
@@ -55,5 +55,17 @@ class DataBase:
         if not (tableName in self._mapTables):
             raise IndexError("There is no table named" + tableName)
         return self._mapTables[tableName]
-        
-    
+
+    def getAsDictionary(self):
+        a = self._mapTables
+        tableDict = {}
+        for key, value in self._mapTables.items():
+            a = value.getAsDictionary()
+            tableDict[key]=value.getAsDicitonary()
+       
+        print(tableDict)
+        return tableDict   
+      
+    def toJSON(self):
+        dict = self.getAsDictionary()
+        return json.dumps(dict)

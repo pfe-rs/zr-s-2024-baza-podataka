@@ -71,7 +71,7 @@ class Table:
         resultTable = Table("ResultTable")
         for key, value in self.mapRows.items():
             if logicalExpression.evaluate(value):
-                resultTable[key] = value
+                resultTable.mapRows[key] = value
 
         return resultTable
     
@@ -92,7 +92,7 @@ class Table:
         for key, value in self.mapRows.items():
             rowDict[key]=value.getDicitonary()
         finalDict={}
-        finalDict["name"]=rowDict
+        finalDict[self.getName()]=rowDict
         return finalDict
     
     def toJSON(self):

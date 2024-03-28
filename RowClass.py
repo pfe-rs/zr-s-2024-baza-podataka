@@ -57,4 +57,5 @@ class Row:
         
         return self._dictionary[key]
     
-
+    def toJSON(self):
+        return json.dumps(self.getDicitonary())

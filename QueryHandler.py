@@ -8,7 +8,7 @@ class QueryHandler:
         with open(path) as f:
             input = json.load(f)
             print(f"{path} loaded successfully")
-            print(input) ## da vidimo da je sve okej i sta je query, samo test print za sad
+            # print(input) ## da vidimo da je sve okej i sta je query, samo test print za sad
             # eval( "__" + input["type"] + "__" ) ### evo eval da bane ima sta da hakuje
             ## salim se bane nista od toga
 
@@ -17,6 +17,10 @@ class QueryHandler:
 
             funkcija = input["type"]
             tabela = input["table"]
+            try: 
+                where = input["where"] ## ako ima where polje
+            except:
+                pass
 
             # bez switch-a zbog verzije pythona
             if funkcija == "create":
@@ -28,10 +32,27 @@ class QueryHandler:
                 cols = input["row"]
                 for key in cols:
                     tempRow.addAttribute(key,cols[key])
-                self.__insert__(tempRow,tabela)
+                self.__insert__(tempRow, tabela)
+            
+            if funkcija == "delete":
+                tempExpression = LogicalExpression(where)
+                self.__delete__( tabela, tempExpression)
 
+            if funkcija == "update":
+                tempRow = Row()
+                cols = input["row"]
+                for key in cols:
+                    tempRow.addAttribute(key,cols[key])
+                tempExpression = LogicalExpression(where)
+                self.__update__(tempRow, tabela, tempExpression)
+
+            if funkcija == "select":
+                tempExpression = LogicalExpression(where)
+                self.__select__(tabela, tempExpression)
+            
+            
     
-    def __create__(self, tableName: str):
+    def __create__(self, tableName : str):
         self.db.createTable(tableName)
 
 
@@ -40,14 +61,15 @@ class QueryHandler:
         self.db.dropTable(tableName)
 
     
-    def __insert__(self, row:Row, tableName:str):
+    def __insert__(self, row : Row, tableName : str):
         table = self.db.getTable(tableName)
         table.insertRow(row)
 
     
-    def __select__(self, DataListOfKeys, tableName:str, logicalExpression):
+    def __select__(self, tableName : str, logicalExpression : LogicalExpression):
         table = self.db.getTable(tableName)
-        table.selectRows(logicalExpression)
+        result = table.selectRows(logicalExpression)
+        print(result.toJSON())
 
     
     
@@ -57,9 +79,9 @@ class QueryHandler:
 
 
     
-    def __update__(self, row, tableName: str, logicalExpression):
+    def __update__(self, newRow, tableName: str, logicalExpression):
         table = self.db.getTable(tableName)
-        table.updateRows(logicalExpression)
+        table.updateRows(logicalExpression,newRow)
 
 
 '''

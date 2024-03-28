@@ -51,6 +51,16 @@ def test_changeAtributeAndNewKeyTOAdd():
     assert row.getAttribute("ime") == "Nemanja"
 
 
+def test_toJSON():
+    row = Row()
+    row.changeAttribute("ime", "Nemanja")
+    row.changeAttribute("prezime", "majski")
+    row.changeAttribute("godiste", 2005)
+    a = row.toJSON()
+    assert row.toJSON() == '{"ime": "Nemanja", "prezime": "majski", "godiste": 2005}'
+
+
+
 test_addAttribute()
 test_checkAttribute()
 test_thereIsAlreadyKey()
@@ -60,3 +70,4 @@ test_deleteAttributeAndThereIsNoKey()
 test_changeAttribute()
 test_changeAtributeAndInvalideKey()
 test_changeAtributeAndNewKeyTOAdd()
+test_toJSON()

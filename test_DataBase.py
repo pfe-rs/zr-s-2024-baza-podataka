@@ -40,9 +40,19 @@ def test_getTableIfThereIsNot():
     with pytest.raises(IndexError):
         testBase.getTable("test")
 
+def test_saveDataBase():
+    testBase=MakeTestDataBase()
+    testBase.createTable("test")
+    testBase.saveDataBase("test.json")
+    # db.saveDataBase(path)
+
+
+
+
 test_createTable()
 test_createTableAndTableAlreadyExist()
 test_dropTable()
 test_dropTableAndThereIsNoTable()
 test_getTable()
 test_getTableIfThereIsNot()
+test_saveDataBase()

@@ -56,13 +56,13 @@ def test_changeRow():
 
     assert testTabela.getRow(2).getAttribute("ime") == "Milutin"
     assert testTabela.getRow(2).getAttribute("godine") == 86
-'''
+
 def test_selectRows():
     testTabela=MakeTestTable()
 
     expression={"operation":">",
             "left":{"column":"godine"},
-            "rigth":{"value":25}
+            "right":{"constant":25}
         }
 
     uslov = LogicalExpression(expression)
@@ -83,12 +83,19 @@ def test_deleteRows():
     uslov = LogicalExpression("godine", ">", 25)
     testTabela.deleteRows(uslov)
     assert len(testTabela.mapRows) == 1
-'''
 
-test_getRow()
-test_deleteRow()
-test_insertRow()
-test_changeRow()
-#test_selectRows()
-#test_updateRows()
-#test_deleteRows()
+def test_toJSON():
+    testTabela=MakeTestTable()
+    a = testTabela.toJSON()
+    assert len(testTabela.mapRows) == 1
+
+
+
+# test_getRow()
+# test_deleteRow()
+# test_insertRow()
+# test_changeRow()
+# test_selectRows()
+# test_updateRows()
+# test_deleteRows()
+test_toJSON()
