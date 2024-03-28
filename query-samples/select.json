@@ -5,11 +5,11 @@
     "operation":"OR",
         "left":{"operation":">",
             "left":{"column":"age"},
-            "rigth":{"constant":18}
+            "right":{"constant":18}
         },
         "right":{"operation":"==",
             "left":{"column":"name"},
-            "rigth":{"constant":"ime"}
+            "right":{"constant":"ime"}
         }
 }
 }

@@ -1,5 +1,5 @@
 {
     "type":"insert",
     "table":"students",
-    "row":{"name":"mika","last_name":"pera", "hobies":"pfe i tako to"}
+    "row":{"name":"mika","last_name":"pera", "age": 22,"hobies":"pfe i tako to"}
 }
