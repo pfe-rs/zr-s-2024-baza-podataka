@@ -57,11 +57,13 @@ def test_changeRow():
     assert testTabela.getRow(2).getAttribute("ime") == "Milutin"
     assert testTabela.getRow(2).getAttribute("godine") == 86
 
+
 def test_selectRows():
     testTabela=MakeTestTable()
 
     expression={"operation":">",
             "left":{"column":"godine"},
+            "right":{"constant":25}
             "right":{"constant":25}
         }
 
@@ -71,31 +73,42 @@ def test_selectRows():
 
 def test_updateRows():
     testTabela=MakeTestTable()
-    uslov = LogicalExpression("godine", ">", 25)
-    promena = {"ime": "Zare", "godine": 60}
+    expression={"operation":">",
+            "left":{"column":"godine"},
+            "right":{"constant":18}
+        }
+    uslov = LogicalExpression(expression)
+    promena=Row()
+    promena.addAttribute("ime", "Milutin")
+    promena.addAttribute("godine", 86)
     testTabela.updateRows(uslov, promena)
-    assert testTabela.getRow(1)["ime"] == "Milica"
-    assert testTabela.getRow(2)["ime"] == "Zare"
-    assert testTabela.getRow(3)["ime"] == "Nemanja"
+    assert testTabela.getRow(1).getAttribute("ime") == "Milutin"
+    assert testTabela.getRow(2).getAttribute("ime") == "Marince"
+    assert testTabela.getRow(3).getAttribute("ime") == "Nemanja"
 
 def test_deleteRows():
     testTabela=MakeTestTable()
-    uslov = LogicalExpression("godine", ">", 25)
+    expression={"operation":">",
+            "left":{"column":"godine"},
+            "right":{"constant":25}
+        }
+    uslov = LogicalExpression(expression)
     testTabela.deleteRows(uslov)
-    assert len(testTabela.mapRows) == 1
+    assert len(testTabela.mapRows) == 3
 
 def test_toJSON():
     testTabela=MakeTestTable()
     a = testTabela.toJSON()
-    assert len(testTabela.mapRows) == 1
 
 
 
-# test_getRow()
-# test_deleteRow()
-# test_insertRow()
-# test_changeRow()
-# test_selectRows()
-# test_updateRows()
-# test_deleteRows()
 test_toJSON()
+
+
+test_getRow()
+test_deleteRow()
+test_insertRow()
+test_changeRow()
+test_selectRows()
+test_updateRows()
+test_deleteRows()

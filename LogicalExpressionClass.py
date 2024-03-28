@@ -44,10 +44,18 @@ class LogicalExpression:
     def evaluate(self, row):
         if type(row) != Row:
             raise TypeError("Logical expressions need to be evaluated on rows")
+        if self.expression=="True":
+            return True
+        if self.expression=="False":
+            return False
         return LogicalExpression._evalRecursion(self.expression, row)
 
     @staticmethod
     def _checkValidity(value):
+        if value=="True":
+            return True
+        if value=="False":
+            return True
         if value == None:
             return False
 
