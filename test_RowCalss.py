@@ -1,18 +1,6 @@
 import pytest
 from RowClass import *
 
-
-red1=Row()
-red2=Row()
-red3=Row()
-red4=Row()
-red5=Row()
-red6=Row()
-red7=Row()
-red8=Row()
-red9=Row()
-
-
 def test_addAttribute():
     row = Row()
     row.addAttribute("ime", "Petar")

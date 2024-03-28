@@ -16,6 +16,9 @@ class Row:
         if type(x) != str and type(x) != int:
             raise TypeError("Value needs to be a string or an integer")
     
+    def getDicitonary(self):
+        return self._dictionary
+
     def addAttribute(self, key, val):
         self.checkAttribute(key)
         self.checkValue(val)
