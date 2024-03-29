@@ -100,7 +100,7 @@ class Table:
             raise ValueError("You cannot change id of a row")
         
         oldRow = self.getRow(rowId)
-        Row.getDictionary
+
         for key, value in newRow.getDictionary().items():
             oldRow.changeAttribute(key, value)
         return True
@@ -136,9 +136,7 @@ class Table:
         rowDict={}
         for key, value in self.mapRows.items():
             rowDict[key]=value.getDictionary()
-        finalDict={}
-        finalDict[self.getName()]=rowDict
-        return finalDict
+        return rowDict
     
     def toJSON(self):
         dict = self.getAsDictionary()
