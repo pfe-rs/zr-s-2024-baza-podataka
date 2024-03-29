@@ -13,8 +13,6 @@ class Table:
             raise TypeError("Table 1 needs to be a table")
         if type(table2) != Table:
             raise TypeError("Table 2 needs to be a table")
-        
-        table2.attachTableName()
 
         resultTable= Table("Result")
         
@@ -41,6 +39,17 @@ class Table:
                     newRow.changeAttribute(key,value)
 
                 resultTable.insertRow(newRow)
+
+    @staticmethod
+    def joinTables(tables,attributes):
+        if len(tables)<=1:
+            raise ValueError("You need to join at least 2 tables")
+        if(len(attributes)+1!=len(tables)):
+            raise ValueError("Therer needs to be 1 more joining attributes than tables")
+        org = tables[0]
+        for i in range(1,len(tables)):
+            org=Table.joinTables(org,tables[i],attributes[i-1])
+        return org
 
     def getRow(self, rowId):
         if type(rowId)!=int:
