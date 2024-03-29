@@ -1,4 +1,4 @@
-from RowClass import *
+from src import *
 
 class LogicalExpression:
     validOperators=["OR","AND"]

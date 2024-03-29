@@ -1,4 +1,4 @@
-from TableClass import *
+from src.DataBaseClass import *
 
 class DataBase:
     def __init__(self):

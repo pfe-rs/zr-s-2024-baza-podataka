@@ -1,4 +1,7 @@
-from DataBaseClass import *
+from src.DataBaseClass import *
+from src.RowClass import *
+from src.LogicalExpressionClass import *
+
 
 class QueryHandler:
     def __init__(self):
