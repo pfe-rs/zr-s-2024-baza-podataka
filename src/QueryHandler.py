@@ -8,7 +8,7 @@ class QueryHandler:
     mutex = threading.Lock()
 
     def __init__(self):
-        if self.db == None:
+        if not hasattr(self, 'db'):
             self.db = DataBase()
 
     def readInputFromFile(self, path:str):
