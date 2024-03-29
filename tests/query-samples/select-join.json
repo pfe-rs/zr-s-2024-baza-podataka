@@ -3,14 +3,8 @@
 "table":"students",
 "join":{"table":"polaznici", "field":"id"},
 "where":{
-    "operation":"OR",
-        "left":{"operation":">",
-            "left":{"column":"age"},
-            "right":{"constant":18}
-        },
-        "right":{"operation":"==",
-            "left":{"column":"name"},
-            "right":{"constant":"ime"}
+        "operation":">",
+            "left":{"column":"id"},
+            "right":{"constant":0}
         }
-}
 }

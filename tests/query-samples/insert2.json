@@ -1,0 +1,5 @@
+{
+    "type":"insert",
+    "table":"polaznici",
+    "row":{"stariji":"mozda", "socijalni": 7,"projekat":"baze"}
+}
