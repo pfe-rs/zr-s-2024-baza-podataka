@@ -128,7 +128,7 @@ class QueryHandler:
         result = table.selectRows(logicalExpression)
         # print(result.toJSON())
         #return result.toJSON()
-        return result
+        return result.toJSON()
 
     
     
