@@ -7,6 +7,41 @@ class Table:
         self.tableName = name
         self.maxId=0
 
+    @staticmethod
+    def joinTables(table1,table2,attribute):
+        if type(table1) != Table:
+            raise TypeError("Table 1 needs to be a table")
+        if type(table2) != Table:
+            raise TypeError("Table 2 needs to be a table")
+        
+        table2.attachTableName()
+
+        resultTable= Table("Result")
+        
+        for row1 in table1.selectRows(LogicalExpression("True")):
+            val1 = row1.getAttribute(attribute)
+            if val1 == None:
+                continue
+            for row2 in table2.selectRows(LogicalExpression("True")):
+                val2 = row2.getAttribute(attribute)
+                if val2 == None:
+                    continue
+                if val1 != val2:
+                    continue
+
+                dict1 = row1.getDictionary()
+                dict2 = row2.getDictionary()
+                del dict1["id"]
+                del dict2["id"]
+
+                newRow = Row()
+                for key, value in dict1:
+                    newRow.changeAttribute(key,value)
+                for key, value in dict2:
+                    newRow.changeAttribute(key,value)
+
+                resultTable.insertRow(newRow)
+
     def getRow(self, rowId):
         if type(rowId)!=int:
             raise ValueError("Id needs to be an integer")
