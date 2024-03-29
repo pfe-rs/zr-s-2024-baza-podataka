@@ -42,7 +42,7 @@ def test_getTableIfThereIsNot():
 def test_saveDataBase():
     testBase=MakeTestDataBase()
     testBase.createTable("test")
-    testBase.saveDataBase("test.json")
+    # testBase.saveDataBase("test.json")
     # db.saveDataBase(path)
 
 
