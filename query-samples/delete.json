@@ -2,9 +2,8 @@
     "type":"delete",
     "table":"students",
     "where":{
-            "left":{"operation":"==",
+            "operation":"==",
                 "left":{"column":"id"},
                 "right":{"constant":0}
             }
-    }
 }
