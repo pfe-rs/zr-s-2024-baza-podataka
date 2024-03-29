@@ -100,7 +100,7 @@ class Table:
             raise ValueError("You cannot change id of a row")
         
         oldRow = self.getRow(rowId)
-        Row.getDictionary
+
         for key, value in newRow.getDictionary().items():
             oldRow.changeAttribute(key, value)
         return True
