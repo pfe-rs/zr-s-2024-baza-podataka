@@ -1,27 +1,226 @@
 from src.QueryHandler import *
 import os
-# def test_parser(path):
 
-#     assert QueryHandler.parseInput(path) == expected_output[path]
-
-
-## todo, napraviti da pytest radi ovde i takodje napraviti da se threaduje parseInput sa mutexima
+queryHandler1 = QueryHandler()
+queryHandler1
 
 
-qh = QueryHandler()
+def test_ParseInputCreate():
+    queryHandler1=QueryHandler()
+    assert queryHandler1.parseInput("""
+{
+    "type":"create",
+    "table":"students"
+}
+    """) == "addition True"
 
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select.json"))
+def test_ParseInputDrop():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+{
+    "type":"create",
+    "table":"students"
+}
+    """) 
+    assert queryHandler1.parseInput('''{
+    "type":"drop",
+    "table":"students"
+}''') == "drop True"
 
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create2.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert2.json"))
+def test_ParseInputInsert():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """) 
+    assert (queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"name":"mika","last_name":"pera", "age": 22,"hobies":"pfe"}
+    }
+        """) ) == "insert True"
 
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select-join.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/delete.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/update.json"))
-print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/drop.json"))
+def test_ParseInputSelect():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"name":"mika","last_name":"pera", "age": 22,"hobies":"pfe i tako to"}
+    }
+        """)
+    #autput=json.loads(autput)
+    tabela=Table("Result")
+    tabela=queryHandler1.parseInput('''
+    {   
+        "type":"select",
+        "columns":["name"],
+        "table":"students",
+        "where":{
+            "operation":"OR",
+                "left":{"operation":">",
+                    "left":{"column":"age"},
+                    "right":{"constant":18}
+                },
+                "right":{"operation":"==",
+                    "left":{"column":"name"},
+                    "right":{"constant":"mika"}
+                }
+        }
+    }
+        ''')
+    assert tabela.getAsDictionary() == {1: {"age": 22,"hobies":"pfe i tako to","id":1,"last_name":"pera", "name":"mika"}}
+
+def test_ParseInputDeleteIfThereIsNo():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """) 
+
+    assert (queryHandler1.parseInput("""
+    {
+        "type":"delete",
+        "table":"students",
+        "where":{
+                "operation":"==",
+                    "left":{"column":"id"},
+                    "right":{"constant":1}
+                }
+    }
+        """) ) == "delete False"
+
+def test_ParseInputDeleteIfThereIs():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"name":"mika","last_name":"pera", "age": 22,"hobies":"pfe"}
+    }
+        """)
+    assert (queryHandler1.parseInput("""
+    {
+        "type":"delete",
+        "table":"students",
+        "where":{
+                "operation":"==",
+                    "left":{"column":"id"},
+                    "right":{"constant":1}
+                }
+    }
+        """) ) == "delete True"
+
+def test_ParseInputUpdateIfThereIs():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """) 
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"name":"mika","last_name":"pera", "age": 22,"hobies":"pfe"}
+    }
+        """)
+    assert queryHandler1.parseInput("""
+    {
+        "type":"update",
+        "table":"students",
+        "row":{"name":"djordje","last_name":"marjanovic", "age": 14},
+        "where":{
+        "operation":"OR",
+            "left":{"operation":">",
+                "left":{"column":"age"},
+                "right":{"constant":10}
+            },
+            "right":{"operation":"==",
+                "left":{"column":"name"},
+                "right":{"constant":"mika"}
+            }
+    }
+    }
+        """) == "update True"
 
 
+
+def test_ParseInputUpdateIfThereIsNo():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """) 
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"name":"mika","last_name":"pera", "age": 22,"hobies":"pfe"}
+    }
+        """)
+    assert queryHandler1.parseInput("""
+    {
+        "type":"update",
+        "table":"students",
+        "row":{"name":"djordje","last_name":"marjanovic", "age": 14},
+        "where":{
+        "operation":"OR",
+            "left":{"operation":">",
+                "left":{"column":"age"},
+                "right":{"constant":10}
+            },
+            "right":{"operation":"==",
+                "left":{"column":"name"},
+                "right":{"constant":"lazar"}
+            }
+    }
+    }
+        """) == "update True"
+
+
+
+
+test_ParseInputDrop()
+test_ParseInputCreate()
+test_ParseInputInsert()
+test_ParseInputSelect()
+test_ParseInputDeleteIfThereIsNo()
+test_ParseInputDeleteIfThereIs()
+test_ParseInputUpdateIfThereIs()
+
+
+
+
+'''
+
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/create.json"))
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/insert.json"))
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/select.json"))
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/delete.json"))
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/insert.json"))
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/update.json"))
+print(qh.parseInput(os.getcwd() + "/tests/query-samples/drop.json"))
+
+'''
 
