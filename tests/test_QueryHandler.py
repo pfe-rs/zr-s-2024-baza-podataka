@@ -1,21 +1,21 @@
-from src import QueryHandler
+# from src.QueryHandler import *
 
-# def test_parser(path):
+# # def test_parser(path):
 
-#     assert QueryHandler.parseInput(path) == expected_output[path]
-
-
-## todo, napraviti da pytest radi ovde i takodje napraviti da se threaduje parseInput sa mutexima
+# #     assert QueryHandler.parseInput(path) == expected_output[path]
 
 
-qh = QueryHandler()
-print(qh.parseInput("query-samples/create.json"))
-print(qh.parseInput("query-samples/insert.json"))
-print(qh.parseInput("query-samples/select.json"))
-print(qh.parseInput("query-samples/insert.json"))
-print(qh.parseInput("query-samples/delete.json"))
-print(qh.parseInput("query-samples/update.json"))
+# ## todo, napraviti da pytest radi ovde i takodje napraviti da se threaduje parseInput sa mutexima
 
 
-print(qh.parseInput("query-samples/drop.json"))
+# qh = QueryHandler()
+# print(qh.parseInput("query-samples/create.json"))
+# print(qh.parseInput("query-samples/insert.json"))
+# print(qh.parseInput("query-samples/select.json"))
+# print(qh.parseInput("query-samples/insert.json"))
+# print(qh.parseInput("query-samples/delete.json"))
+# print(qh.parseInput("query-samples/update.json"))
+
+
+# print(qh.parseInput("query-samples/drop.json"))
 

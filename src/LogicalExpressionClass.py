@@ -1,4 +1,4 @@
-from src import *
+from src.RowClass import *
 
 class LogicalExpression:
     validOperators=["OR","AND"]

@@ -1,6 +1,5 @@
-from src import *
-
-
+from src.DataBaseClass import *
+import pytest
 
 def MakeTestDataBase():
     testBase=DataBase()

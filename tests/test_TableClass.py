@@ -1,7 +1,7 @@
 import pytest
-from RowClass import *
-from TableClass import *
-from LogicalExpressionClass import *
+from src.RowClass import *
+from src.TableClass import *
+from src.LogicalExpressionClass import *
 
 
 def MakeTestTable():

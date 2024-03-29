@@ -1,5 +1,5 @@
 import pytest
-from RowClass import *
+from src.RowClass import *
 
 def test_addAttribute():
     row = Row()

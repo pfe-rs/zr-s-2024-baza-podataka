@@ -1,5 +1,5 @@
-from RowClass import *
-from LogicalExpressionClass import *
+from src.RowClass import *
+from src.LogicalExpressionClass import *
 
 class Table:
     def __init__(self, name):
