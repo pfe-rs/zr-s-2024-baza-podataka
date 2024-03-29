@@ -26,6 +26,12 @@ class QueryHandler:
 
         # funkcija = locals()["__" + input["type"] + "__"] ## dobro msm mozes i ovako
         # funkcija() ### nahhhh ovo ce biti prekomplikovano ovako
+        
+        if not ("type" in input):
+            raise SyntaxError("You need to specify query type")
+        if not ("table" in input):
+            raise SyntaxError("You need to specify table")
+        
         funkcija = input["type"]
         tabela = input["table"]
         try: 
