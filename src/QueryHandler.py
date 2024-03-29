@@ -2,53 +2,60 @@ from src.DataBaseClass import *
 from src.RowClass import *
 from src.LogicalExpressionClass import *
 
+import threading 
 
 class QueryHandler:
+    mutex = threading.Lock()
+
     def __init__(self):
-        self.db = DataBase()
+        if not hasattr(self, 'db'):
+            self.db = DataBase()
 
-    def parseInput(self, path:str):
-        returnval = ""
-        with open(path) as f:
-            input = json.load(f)
-            print(f"{path} loaded successfully")
-            # print(input) ## da vidimo da je sve okej i sta je query, samo test print za sad
-            # eval( "__" + input["type"] + "__" ) ### evo eval da bane ima sta da hakuje
-            ## salim se bane nista od toga
+    def readInputFromFile(self, path:str):
+        with open(path, "r") as file:
+            self.parseInput(file.read())
 
-            # funkcija = locals()["__" + input["type"] + "__"] ## dobro msm mozes i ovako
-            # funkcija() ### nahhhh ovo ce biti prekomplikovano ovako
+    def parseInput(self, jsonInput:str):
+        self.mutex.acquire()
 
-            funkcija = input["type"]
-            tabela = input["table"]
-            try: 
-                where = input["where"] ## ako ima where polje
-            except:
-                pass
+        returnval = "" 
+        input = json.loads(jsonInput)
+        # print(input) ## da vidimo da je sve okej i sta je query, samo test print za sad
+        # eval( "__" + input["type"] + "__" ) ### evo eval da bane ima sta da hakuje
+        ## salim se bane nista od toga
 
-            # bez switch-a zbog verzije pythona
-            if funkcija == "create":
-                returnval = self.__create__(tabela)
-            if funkcija == "drop":
-                returnval = self.__drop__(tabela)
-            if funkcija == "insert":
-                tempRow = Row()
-                cols = input["row"]
-                for key in cols:
-                    tempRow.addAttribute(key,cols[key])
-                returnval = self.__insert__(tempRow, tabela)
-            
-            if funkcija == "delete":
-                tempExpression = LogicalExpression(where)
-                returnval = self.__delete__( tabela, tempExpression)
+        # funkcija = locals()["__" + input["type"] + "__"] ## dobro msm mozes i ovako
+        # funkcija() ### nahhhh ovo ce biti prekomplikovano ovako
+        funkcija = input["type"]
+        tabela = input["table"]
+        try: 
+            where = input["where"] ## ako ima where polje
+        except:
+            pass
 
-            if funkcija == "update":
-                tempRow = Row()
-                cols = input["row"]
-                for key in cols:
-                    tempRow.addAttribute(key,cols[key])
-                tempExpression = LogicalExpression(where)
-                returnval = self.__update__(tempRow, tabela, tempExpression)
+        # bez switch-a zbog verzije pythona
+        if funkcija == "create":
+            returnval = self.__create__(tabela)
+        if funkcija == "drop":
+            returnval = self.__drop__(tabela)
+        if funkcija == "insert":
+            tempRow = Row()
+            cols = input["row"]
+            for key in cols:
+                tempRow.addAttribute(key,cols[key])
+            returnval = self.__insert__(tempRow, tabela)
+        
+        if funkcija == "delete":
+            tempExpression = LogicalExpression(where)
+            returnval = self.__delete__( tabela, tempExpression)
+
+        if funkcija == "update":
+            tempRow = Row()
+            cols = input["row"]
+            for key in cols:
+                tempRow.addAttribute(key,cols[key])
+            tempExpression = LogicalExpression(where)
+            returnval = self.__update__(tempRow, tabela, tempExpression)
 
             if funkcija == "select":
                 tempExpression = LogicalExpression(where)
