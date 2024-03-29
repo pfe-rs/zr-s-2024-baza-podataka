@@ -63,15 +63,35 @@ class QueryHandler:
             tempExpression = LogicalExpression(where)
             returnval = self.__update__(tempRow, tabela, tempExpression)
 
-        if funkcija == "select":
-            tempExpression = LogicalExpression(where)
-            returnval = self.__select__(tabela, tempExpression)
-        
-
-        self.mutex.release()
-        return returnval
+            if funkcija == "select":
+                tempExpression = LogicalExpression(where)
+                try:
+                    joinTableQuery = self.__eval_join_recursion__(tabela,input["join"])
+                except:
+                    pass
+                returnval = self.__select__(tabela, tempExpression,joinTableQuery)
             
-    
+            return returnval
+            
+    def __eval_join_recursion__(self,table_left,joinquery):
+        lista_right = ([],[])
+        try:
+            jq = joinquery["join"]
+            if jq is not None:
+                lista_right = self.__eval_join_recursion__(jq)  
+        except:
+            pass
+        ## 
+        table_left = joinquery["table"]
+        field = joinquery["field"]
+        tables = [table_left]
+        fields = [field]
+        tables_r, fields_r = lista_right
+        tables = tables + tables_r
+        fields = fields + fields_r
+
+        return (tables,fields)
+
     def __create__(self, tableName : str):
         status = self.db.createTable(tableName)
         return f"addition {status}"
@@ -90,8 +110,15 @@ class QueryHandler:
 
 
     
-    def __select__(self, tableName : str, logicalExpression : LogicalExpression):
+    def __select__(self, tableName : str, logicalExpression : LogicalExpression,joinTableQuery):
         table = self.db.getTable(tableName)
+        try:
+            tables,attributes = joinTableQuery
+            joinedTable = Table.joinTables(tables,attributes)
+            result = joinedTable.selectRows(logicalExpression)
+            return result.toJSON()
+        except:
+            pass
         result = table.selectRows(logicalExpression)
         # print(result.toJSON())
         return result.toJSON()
