@@ -27,8 +27,8 @@ class Table:
                 if val1 != val2:
                     continue
 
-                dict1 = row1.getDictionary()
-                dict2 = row2.getDictionary()
+                dict1 = row1.getDictionary().copy()
+                dict2 = row2.getDictionary().copy()
                 del dict1["id"]
                 del dict2["id"]
 
