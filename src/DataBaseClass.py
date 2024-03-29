@@ -37,7 +37,7 @@ class DataBase:
     def createTable(self,tableName):
         self._checkName(tableName)
         if tableName in self._mapTables:
-            raise IndexError("There is already table named " + tableName)
+            raise IndexError('There is already table named: ' + str(tableName))
         
         self._mapTables[tableName] = Table(tableName)
         return True
