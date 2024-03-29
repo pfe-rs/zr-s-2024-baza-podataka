@@ -25,6 +25,50 @@ def MakeTestTable():
 
     return table
 
+def MakeSecondTestTable():
+    table = Table("Test2")
+    r1=Row()
+    r2=Row()
+    r3=Row()
+    r1.addAttribute("id",1)
+    r1.addAttribute("ime","Milica")
+    r1.addAttribute("grad","Loznica")
+    r2.addAttribute("id",2)
+    r2.addAttribute("ime","Marince")
+    r2.addAttribute("grad", "Nis")
+    r3.addAttribute("id",3)
+    r3.addAttribute("ime","Nemanja")
+    r3.addAttribute("grad","Sombor")
+
+    table.insertRow(r1)
+    table.insertRow(r2)
+    table.insertRow(r3)
+
+    return table
+
+def MakeThirdTestTable():
+    table = Table("Test2")
+    r1=Row()
+    r2=Row()
+    r3=Row()
+    r1.addAttribute("id",1)
+    r1.addAttribute("opis","Zapad")
+    r1.addAttribute("grad","Loznica")
+    r2.addAttribute("id",2)
+    r2.addAttribute("opis","Jug")
+    r2.addAttribute("grad", "Nis")
+    r3.addAttribute("id",3)
+    r3.addAttribute("opis","Sever")
+    r3.addAttribute("grad","Sombor")
+    table.insertRow(r1)
+    table.insertRow(r2)
+    table.insertRow(r3)
+
+    return table
+
+
+
+
 def test_getRow():
     testTabela=MakeTestTable()
     r123=Row()
@@ -56,7 +100,6 @@ def test_changeRow():
 
     assert testTabela.getRow(2).getAttribute("ime") == "Milutin"
     assert testTabela.getRow(2).getAttribute("godine") == 86
-
 
 def test_selectRows():
     testTabela=MakeTestTable()
@@ -99,11 +142,58 @@ def test_toJSON():
     testTabela=MakeTestTable()
     a = testTabela.toJSON()
 
+def test_joinTwoTables():
+    table1=MakeTestTable()
+    table2=MakeSecondTestTable()
+    resultTable=Table.joinTwoTables(table1, table2, "ime")
+
+    assert len(resultTable.getAsDictionary()["Result"]) == 3  
+    assert resultTable.getRow(1).getAttribute("ime") == "Milica"
+    assert resultTable.getRow(1).getAttribute("godine") == 19
+    assert resultTable.getRow(1).getAttribute("grad") == "Loznica"
+    assert resultTable.getRow(2).getAttribute("ime") == "Marince"
+    assert resultTable.getRow(2).getAttribute("godine") == 17
+    assert resultTable.getRow(2).getAttribute("grad") == "Nis"
+    assert resultTable.getRow(3).getAttribute("ime") == "Nemanja"
+    assert resultTable.getRow(3).getAttribute("godine") == 18
+    assert resultTable.getRow(3).getAttribute("grad") == "Sombor"
+
+def test_joinThreetables():
+    table1=MakeTestTable()
+    table2=MakeSecondTestTable()
+    table3=MakeThirdTestTable()
+
+    tables=[table1,table2,table3]
+    attributes=["ime","grad"]
+    resultTable=Table.joinTables(tables, attributes)
+
+    assert len(resultTable.getAsDictionary()["Result"]) == 3  
+    assert resultTable.getRow(1).getAttribute("ime") == "Milica"
+    assert resultTable.getRow(1).getAttribute("godine") == 19
+    assert resultTable.getRow(1).getAttribute("grad") == "Loznica"
+    assert resultTable.getRow(1).getAttribute("opis") == "Zapad"
+    assert resultTable.getRow(2).getAttribute("ime") == "Marince"
+    assert resultTable.getRow(2).getAttribute("godine") == 17
+    assert resultTable.getRow(2).getAttribute("grad") == "Nis"
+    assert resultTable.getRow(2).getAttribute("opis") == "Jug"
+    assert resultTable.getRow(3).getAttribute("ime") == "Nemanja"
+    assert resultTable.getRow(3).getAttribute("godine") == 18
+    assert resultTable.getRow(3).getAttribute("grad") == "Sombor"
+    assert resultTable.getRow(3).getAttribute("opis") == "Sever"
+
+def test_joinTwoTablesButNoAttributeInBouth():
+    table1=MakeTestTable()
+    table2=MakeThirdTestTable()
+    resultTable=Table.joinTwoTables(table1, table2, "ime")
+    rez=Table("Result")
+    assert len(resultTable.getAsDictionary()["Result"]) == 0
+
+
+
+
 
 
 test_toJSON()
-
-
 test_getRow()
 test_deleteRow()
 test_insertRow()
@@ -111,3 +201,6 @@ test_changeRow()
 test_selectRows()
 test_updateRows()
 test_deleteRows()
+test_joinTwoTables()
+test_joinThreetables()
+test_joinTwoTablesButNoAttributeInBouth()

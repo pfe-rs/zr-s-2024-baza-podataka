@@ -16,7 +16,7 @@ class Row:
         if type(x) != str and type(x) != int:
             raise TypeError("Value needs to be a string or an integer")
     
-    def getDicitonary(self):
+    def getDictionary(self):
         return self._dictionary
 
     def addAttribute(self, key, val):
@@ -58,4 +58,4 @@ class Row:
         return self._dictionary[key]
     
     def toJSON(self):
-        return json.dumps(self.getDicitonary())
+        return json.dumps(self.getDictionary())
