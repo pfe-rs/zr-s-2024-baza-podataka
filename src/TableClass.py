@@ -143,9 +143,7 @@ class Table:
         rowDict={}
         for key, value in self.mapRows.items():
             rowDict[key]=value.getDictionary()
-        finalDict={}
-        finalDict[self.getName()]=rowDict
-        return finalDict
+        return rowDict
     
     def toJSON(self):
         dict = self.getAsDictionary()

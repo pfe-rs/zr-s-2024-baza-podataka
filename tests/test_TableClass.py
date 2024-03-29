@@ -147,7 +147,7 @@ def test_joinTwoTables():
     table2=MakeSecondTestTable()
     resultTable=Table.joinTwoTables(table1, table2, "ime")
 
-    assert len(resultTable.getAsDictionary()["Result"]) == 3  
+    assert len(resultTable.getAsDictionary()) == 3  
     assert resultTable.getRow(1).getAttribute("ime") == "Milica"
     assert resultTable.getRow(1).getAttribute("godine") == 19
     assert resultTable.getRow(1).getAttribute("grad") == "Loznica"
@@ -167,7 +167,7 @@ def test_joinThreetables():
     attributes=["ime","grad"]
     resultTable=Table.joinTables(tables, attributes)
 
-    assert len(resultTable.getAsDictionary()["Result"]) == 3  
+    assert len(resultTable.getAsDictionary()) == 3  
     assert resultTable.getRow(1).getAttribute("ime") == "Milica"
     assert resultTable.getRow(1).getAttribute("godine") == 19
     assert resultTable.getRow(1).getAttribute("grad") == "Loznica"
@@ -186,7 +186,7 @@ def test_joinTwoTablesButNoAttributeInBouth():
     table2=MakeThirdTestTable()
     resultTable=Table.joinTwoTables(table1, table2, "ime")
     rez=Table("Result")
-    assert len(resultTable.getAsDictionary()["Result"]) == 0
+    assert len(resultTable.getAsDictionary()) == 0
 
 
 
