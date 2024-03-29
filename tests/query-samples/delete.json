@@ -4,6 +4,6 @@
     "where":{
             "operation":"==",
                 "left":{"column":"id"},
-                "right":{"constant":0}
+                "right":{"constant":2}
             }
 }

@@ -1,7 +1,7 @@
 {
     "type":"update",
     "table":"students",
-    "row":{"name":"djordje","last_name":"marjanovic", "age": 14}
+    "row":{"name":"djordje","last_name":"marjanovic", "age": 14},
     "where":{
     "operation":"OR",
         "left":{"operation":">",
