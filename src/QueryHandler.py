@@ -2,13 +2,18 @@ from src.DataBaseClass import *
 from src.RowClass import *
 from src.LogicalExpressionClass import *
 
+import threading 
+mutex = threading.Lock()
 
 class QueryHandler:
     def __init__(self):
-        self.db = DataBase()
+        if self.db == None:
+            self.db = DataBase()
 
     def parseInput(self, path:str):
-        returnval = ""
+        mutex.acquire()
+        
+        returnval = "" 
         with open(path) as f:
             input = json.load(f)
             print(f"{path} loaded successfully")
@@ -18,7 +23,6 @@ class QueryHandler:
 
             # funkcija = locals()["__" + input["type"] + "__"] ## dobro msm mozes i ovako
             # funkcija() ### nahhhh ovo ce biti prekomplikovano ovako
-
             funkcija = input["type"]
             tabela = input["table"]
             try: 
@@ -54,6 +58,8 @@ class QueryHandler:
                 tempExpression = LogicalExpression(where)
                 returnval = self.__select__(tabela, tempExpression)
             
+
+            mutex.release()
             return returnval
             
     
