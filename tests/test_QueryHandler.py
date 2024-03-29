@@ -59,8 +59,7 @@ def test_ParseInputSelect():
     }
         """)
     #autput=json.loads(autput)
-    tabela=Table("Result")
-    tabela=queryHandler1.parseInput('''
+    assert queryHandler1.parseInput('''
     {   
         "type":"select",
         "columns":["name"],
@@ -77,9 +76,7 @@ def test_ParseInputSelect():
                 }
         }
     }
-        ''')
-    assert tabela.getAsDictionary() == {1: {"age": 22,"hobies":"pfe i tako to","id":1,"last_name":"pera", "name":"mika"}}
-
+        ''') == '{"1": {"name": "mika", "last_name": "pera", "age": 22, "hobies": "pfe i tako to", "id": 1}}'
 def test_ParseInputDeleteIfThereIsNo():
     queryHandler1=QueryHandler()
     queryHandler1.parseInput("""
@@ -211,16 +208,21 @@ test_ParseInputUpdateIfThereIs()
 
 
 
+qh = QueryHandler()
 
-'''
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select.json"))
 
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/create.json"))
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/insert.json"))
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/select.json"))
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/delete.json"))
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/insert.json"))
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/update.json"))
-print(qh.parseInput(os.getcwd() + "/tests/query-samples/drop.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create2.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert2.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select-join.json"))
 
-'''
+
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/delete.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/update.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/drop.json"))
+
+
 
