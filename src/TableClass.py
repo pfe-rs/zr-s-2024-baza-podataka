@@ -123,14 +123,21 @@ class Table:
     def updateRows(self, logicalExpression, newRow):
         toUpdate = self.selectRows(logicalExpression)
         row=Row()
+        if (len(toUpdate.mapRows) == 0):
+            return False
+        retval = True
         for row in toUpdate.mapRows.values():
-            self.changeRow(row.getAttribute("id"), newRow)
+            retval *= self.changeRow(row.getAttribute("id"), newRow)
+        return retval
 
     def deleteRows(self, logicalExpression):
         toDelete = self.selectRows(logicalExpression)
-
+        if (len(toDelete.mapRows) == 0):
+            return False
+        retval = True
         for row in toDelete.mapRows.values():
-            self.deleteRow(row.getAttribute("id"))
+            retval *= self.deleteRow(row.getAttribute("id"))
+        return retval
 
     def getAsDictionary(self):
         rowDict={}
