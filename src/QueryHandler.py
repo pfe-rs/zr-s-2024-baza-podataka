@@ -67,19 +67,19 @@ class QueryHandler:
             
     
     def __create__(self, tableName : str):
-        status = self.db.createTable(tableName)
+        status = bool(self.db.createTable(tableName))
         return f"addition {status}"
 
 
     
     def __drop__(self, tableName):
-        status = self.db.dropTable(tableName)
+        status = bool(self.db.dropTable(tableName))
         return f"drop {status}"
 
     
     def __insert__(self, row : Row, tableName : str):
         table = self.db.getTable(tableName)
-        status = table.insertRow(row)
+        status = bool (table.insertRow(row))
         return f"insert {status}"
 
 
@@ -88,18 +88,19 @@ class QueryHandler:
         table = self.db.getTable(tableName)
         result = table.selectRows(logicalExpression)
         # print(result.toJSON())
-        return result.toJSON()
+        #return result.toJSON()
+        return result
 
     
     
     def __delete__(self, tableName:str, logicalExpression):
         table = self.db.getTable(tableName)
-        status = table.deleteRows(logicalExpression)
+        status = bool(table.deleteRows(logicalExpression))
         return f"delete {status}"
 
     def __update__(self, newRow, tableName: str, logicalExpression):
         table = self.db.getTable(tableName)
-        status = table.updateRows(logicalExpression,newRow)
+        status = bool(table.updateRows(logicalExpression,newRow))
         return f"update {status}"
 
 
