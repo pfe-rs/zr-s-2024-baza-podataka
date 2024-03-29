@@ -70,8 +70,9 @@ class QueryHandler:
                 except:
                     pass
                 returnval = self.__select__(tabela, tempExpression,joinTableQuery)
-            
-            return returnval
+
+        #self.mutex.release()    
+        return returnval
             
     def __eval_join_recursion__(self,table_left,joinquery):
         lista_right = ([],[])

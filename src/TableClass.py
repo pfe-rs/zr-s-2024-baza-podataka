@@ -8,7 +8,11 @@ class Table:
         self.maxId=0
 
     @staticmethod
-    def joinTwoTables(table1,table2,attribute):
+    def joinTwoTables(table1OG,table2OG,attribute):
+        table1=Table("ajsk")
+        table2=Table("afdjhk")
+        table1=table1OG
+        table2=table2OG
         if type(table1) != Table:
             raise TypeError("Table 1 needs to be a table")
         if type(table2) != Table:
