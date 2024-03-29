@@ -13,9 +13,9 @@ class QueryHandler:
 
     def readInputFromFile(self, path:str):
         with open(path, "r") as file:
-            self.parseInput(file.read())
+            return self.parseInput(file.read())
 
-    def parseInput(self, jsonInput:str):
+    def parseInput(self, jsonInput):
         self.mutex.acquire()
 
         returnval = "" 
@@ -57,15 +57,19 @@ class QueryHandler:
             tempExpression = LogicalExpression(where)
             returnval = self.__update__(tempRow, tabela, tempExpression)
 
-            if funkcija == "select":
-                tempExpression = LogicalExpression(where)
-                try:
-                    joinTableQuery = self.__eval_join_recursion__(tabela,input["join"])
-                except:
-                    pass
-                returnval = self.__select__(tabela, tempExpression,joinTableQuery)
-            
-            return returnval
+        if funkcija == "select":
+            tempExpression = LogicalExpression(where)
+            joinTableQuery = ""
+            try:
+                joinTableQuery = self.__eval_join_recursion__(tabela,input["join"])
+            except:
+                pass
+            returnval = self.__select__(tabela, tempExpression,joinTableQuery)
+        
+        self.mutex.release()
+        return returnval
+
+        
             
     def __eval_join_recursion__(self,table_left,joinquery):
         lista_right = ([],[])
@@ -73,12 +77,14 @@ class QueryHandler:
             jq = joinquery["join"]
             if jq is not None:
                 lista_right = self.__eval_join_recursion__(jq)  
-        except:
-            pass
+        except Exception as e:
+            print(e)
         ## 
-        table_left = joinquery["table"]
+        table_right = joinquery["table"]
         field = joinquery["field"]
-        tables = [table_left]
+        tb_left = self.db.getTable(table_left)
+        tb_right = self.db.getTable(table_right)
+        tables = [tb_left,tb_right]
         fields = [field]
         tables_r, fields_r = lista_right
         tables = tables + tables_r

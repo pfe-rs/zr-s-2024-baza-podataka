@@ -13,6 +13,11 @@ qh = QueryHandler()
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select.json"))
+
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create2.json"))
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert2.json"))
+
+print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select-join.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/delete.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/update.json"))
