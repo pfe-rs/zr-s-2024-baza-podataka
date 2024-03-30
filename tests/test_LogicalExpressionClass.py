@@ -1,5 +1,6 @@
 import pytest
-from LogicalExpressionClass import *
+from src.LogicalExpressionClass import *
+from src.RowClass import *
 
 row = Row()
 row.addAttribute("name","pera")

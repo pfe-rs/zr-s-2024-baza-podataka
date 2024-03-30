@@ -1,0 +1,10 @@
+{"type":"select",
+"columns":["name"],
+"table":"students",
+"join":{"table":"polaznici", "field":"id"},
+"where":{
+        "operation":">",
+            "left":{"column":"id"},
+            "right":{"constant":0}
+        }
+}

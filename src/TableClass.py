@@ -1,11 +1,56 @@
-from RowClass import *
-from LogicalExpressionClass import *
+from src.RowClass import *
+from src.LogicalExpressionClass import *
 
 class Table:
     def __init__(self, name):
         self.mapRows = {}
         self.tableName = name
         self.maxId=0
+
+    @staticmethod
+    def joinTwoTables(table1,table2,attribute):
+        if type(table1) != Table:
+            raise TypeError("Table 1 needs to be a table")
+        if type(table2) != Table:
+            raise TypeError("Table 2 needs to be a table")
+
+        resultTable= Table("Result")
+        
+        for row1 in table1.mapRows.values():
+            val1 = row1.getAttribute(attribute)
+            if val1 == None:
+                continue
+            for row2 in table2.mapRows.values():
+                val2 = row2.getAttribute(attribute)
+                if val2 == None:
+                    continue
+                if val1 != val2:
+                    continue
+
+                dict1 = row1.getDictionary().copy()
+                dict2 = row2.getDictionary().copy()
+                del dict1["id"]
+                del dict2["id"]
+
+                newRow = Row()
+                for key, value in dict1.items():
+                    newRow.changeAttribute(key,value)
+                for key, value in dict2.items():
+                    newRow.changeAttribute(key,value)
+
+                resultTable.insertRow(newRow)
+        return resultTable
+
+    @staticmethod
+    def joinTables(tables,attributes):
+        if len(tables)<=1:
+            raise ValueError("You need to join at least 2 tables")
+        if(len(attributes)+1!=len(tables)):
+            raise ValueError("Therer needs to be 1 more joining attributes than tables")
+        org = tables[0]
+        for i in range(1,len(tables)):
+            org=Table.joinTwoTables(org,tables[i],attributes[i-1])
+        return org
 
     def getRow(self, rowId):
         if type(rowId)!=int:
@@ -55,8 +100,8 @@ class Table:
             raise ValueError("You cannot change id of a row")
         
         oldRow = self.getRow(rowId)
-        
-        for key, value in newRow.getDicitonary().items():
+
+        for key, value in newRow.getDictionary().items():
             oldRow.changeAttribute(key, value)
         return True
     
@@ -78,22 +123,27 @@ class Table:
     def updateRows(self, logicalExpression, newRow):
         toUpdate = self.selectRows(logicalExpression)
         row=Row()
+        if (len(toUpdate.mapRows) == 0):
+            return False
+        retval = True
         for row in toUpdate.mapRows.values():
-            self.changeRow(row.getAttribute("id"), newRow)
+            retval *= self.changeRow(row.getAttribute("id"), newRow)
+        return retval
 
     def deleteRows(self, logicalExpression):
         toDelete = self.selectRows(logicalExpression)
-
+        if (len(toDelete.mapRows) == 0):
+            return False
+        retval = True
         for row in toDelete.mapRows.values():
-            self.deleteRow(row.getAttribute("id"))
+            retval *= self.deleteRow(row.getAttribute("id"))
+        return retval
 
     def getAsDictionary(self):
         rowDict={}
         for key, value in self.mapRows.items():
-            rowDict[key]=value.getDicitonary()
-        finalDict={}
-        finalDict[self.getName()]=rowDict
-        return finalDict
+            rowDict[key]=value.getDictionary()
+        return rowDict
     
     def toJSON(self):
         dict = self.getAsDictionary()

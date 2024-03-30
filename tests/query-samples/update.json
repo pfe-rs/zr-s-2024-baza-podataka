@@ -1,0 +1,16 @@
+{
+    "type":"update",
+    "table":"students",
+    "row":{"name":"djordje","last_name":"marjanovic", "age": 14},
+    "where":{
+    "operation":"OR",
+        "left":{"operation":">",
+            "left":{"column":"age"},
+            "right":{"constant":10}
+        },
+        "right":{"operation":"==",
+            "left":{"column":"name"},
+            "right":{"constant":"mika"}
+        }
+}
+}

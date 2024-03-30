@@ -1,6 +1,5 @@
+from src.DataBaseClass import *
 import pytest
-from TableClass import *
-from DataBaseClass import *
 
 def MakeTestDataBase():
     testBase=DataBase()
