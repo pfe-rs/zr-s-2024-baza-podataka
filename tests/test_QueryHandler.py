@@ -195,9 +195,109 @@ def test_ParseInputUpdateIfThereIsNo():
     }
         """) == "update True"
 
+def test_ParseInputJoin():
+    queryHandler1=QueryHandler()
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"students"
+    }
+    """) 
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"ime":"Milica", "godine": 19}
+    }
+        """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"ime":"Marince", "godine": 17}
+    }
+        """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"students",
+        "row":{"ime":"Nemanja", "godine": 18}
+    }
+        """)
+    
 
 
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"studentsCity"
+    }
+    """) 
 
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"studentsCity",
+        "row":{"ime":"Milica", "grad": "Loznica"}
+    }
+        """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"studentsCity",
+        "row":{"ime":"Marince", "grad": "Nis"}
+    }
+        """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"studentsCity",
+        "row":{"ime":"Nemanja", "grad": "Sombor"}
+    }
+        """)
+    
+
+    queryHandler1.parseInput("""
+    {
+        "type":"create",
+        "table":"CityDesc"
+    }
+    """) 
+
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"CityDesc",
+        "row":{"opis":"Zapad", "grad": "Loznica"}
+    }
+        """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"CityDesc",
+        "row":{"opis":"Jug", "grad": "Nis"}
+    }
+        """)
+    queryHandler1.parseInput("""
+    {
+        "type":"insert",
+        "table":"CityDesc",
+        "row":{"opis":"Sever", "grad": "Sombor"}
+    }
+        """)
+    
+
+    assert queryHandler1.parseInput('''
+    {
+        "type":"select",
+        "table":"students",
+        "join":{"table":"studentsCity", "field":"ime", "join":{"table":"CityDesc", "field":"grad"}},
+        "where":"True"
+    }
+        ''') == '{"1": {"ime": "Milica", "godine": 19, "grad": "Loznica","opis": "Zapad", "id": 1}, "2": {"ime": "Marince", "godine": 17, "grad": "Nis", "opis": "Jug", "id": 2}, "3": {"ime": "Nemanja", "godine": 18, "grad": "Sombor","opis": "Sever",  "id": 3}}'
+
+
+test_ParseInputJoin()
 test_ParseInputDrop()
 test_ParseInputCreate()
 test_ParseInputInsert()
@@ -210,6 +310,8 @@ test_ParseInputUpdateIfThereIs()
 
 qh = QueryHandler()
 
+
+'''
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/create.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/select.json"))
@@ -224,5 +326,5 @@ print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/insert.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/update.json"))
 print(qh.readInputFromFile(os.getcwd() + "/tests/query-samples/drop.json"))
 
-
+'''
 

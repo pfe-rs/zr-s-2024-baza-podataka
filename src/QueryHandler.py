@@ -64,6 +64,7 @@ class QueryHandler:
             returnval = self.__update__(tempRow, tabela, tempExpression)
 
         if funkcija == "select":
+            #print("na drobrom smo tragu")
             tempExpression = LogicalExpression(where)
             joinTableQuery = ""
             try:
@@ -79,14 +80,14 @@ class QueryHandler:
             
     def __eval_join_recursion__(self,table_left,joinquery):
         lista_right = ([],[])
+        table_right = joinquery["table"]
         try:
             jq = joinquery["join"]
             if jq is not None:
-                lista_right = self.__eval_join_recursion__(jq)  
+                lista_right = self.__eval_join_recursion__(table_right,jq)  
         except Exception as e:
             print(e)
         ## 
-        table_right = joinquery["table"]
         field = joinquery["field"]
         tb_left = self.db.getTable(table_left)
         tb_right = self.db.getTable(table_right)
@@ -95,7 +96,7 @@ class QueryHandler:
         tables_r, fields_r = lista_right
         tables = tables + tables_r
         fields = fields + fields_r
-
+        print(tables)
         return (tables,fields)
 
     def __create__(self, tableName : str):
