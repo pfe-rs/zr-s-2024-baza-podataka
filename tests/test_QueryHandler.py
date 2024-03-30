@@ -287,6 +287,7 @@ def test_ParseInputJoin():
         """)
     
 
+
     assert queryHandler1.parseInput('''
     {
         "type":"select",
@@ -294,8 +295,7 @@ def test_ParseInputJoin():
         "join":{"table":"studentsCity", "field":"ime", "join":{"table":"CityDesc", "field":"grad"}},
         "where":"True"
     }
-        ''') == '{"1": {"ime": "Milica", "godine": 19, "grad": "Loznica","opis": "Zapad", "id": 1}, "2": {"ime": "Marince", "godine": 17, "grad": "Nis", "opis": "Jug", "id": 2}, "3": {"ime": "Nemanja", "godine": 18, "grad": "Sombor","opis": "Sever",  "id": 3}}'
-
+        ''') == '{"1": {"ime": "Milica", "godine": 19, "grad": "Loznica", "opis": "Zapad", "id": 1}, "2": {"ime": "Marince", "godine": 17, "grad": "Nis", "opis": "Jug", "id": 2}, "3": {"ime": "Nemanja", "godine": 18, "grad": "Sombor", "opis": "Sever", "id": 3}}'
 
 test_ParseInputJoin()
 test_ParseInputDrop()

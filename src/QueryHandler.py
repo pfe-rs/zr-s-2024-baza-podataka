@@ -121,11 +121,12 @@ class QueryHandler:
         table = self.db.getTable(tableName)
         try:
             tables,attributes = joinTableQuery
+            tables = list(dict.fromkeys(tables))
             joinedTable = Table.joinTables(tables,attributes)
             result = joinedTable.selectRows(logicalExpression)
             return result.toJSON()
-        except:
-            pass
+        except Exception  as e:
+            print(e)
         result = table.selectRows(logicalExpression)
         # print(result.toJSON())
         #return result.toJSON()
